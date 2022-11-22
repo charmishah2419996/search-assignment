@@ -5,10 +5,10 @@
           <input @keyup.enter="submitSearchResult()" placeholder="Search emails,names or group"  v-model="searchText"  />
         </div>
         <div class="each"> 
-            <permissionDropdown :options="options" @selectedOptionedClick="selectedOptionedClick"></permissionDropdown>
+            <permissionDropdown :options="options" @selectedOptionedClick="selectedOptionedClick" :disabled="!inviteDisabled()"></permissionDropdown>
         </div>
         <div class="each">
-             <el-button @click="inviteClick()">invite</el-button>
+             <el-button @click="inviteClick()" :disabled="!inviteDisabled()">invite</el-button>
         </div>
 
       </header>
@@ -54,15 +54,15 @@ export default {
             {
             "title" :"selected Person",
             "details":[
-                {"profilePic":'https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg','name':"wade Cooper"},
-                {"profilePic":'https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg','name':"Arlin Mccoy"}
+                {"profilePic":'https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg','name':"wade Cooper" ,"permission":"No access","email":"wadeCooper@gmail.com","isInvite":false},
+                {"profilePic":'https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg','name':"Arlin Mccoy","permission":"No access","email":"ArlinMccoy@gmail.com","isInvite":false}
             ]
             },
              {
             "title" :"selected Group",
             "details":[
-                {"profilePic":'https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg','name':"product"},
-                {"profilePic":'https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg','name':"engineer"}
+                {"profilePic":'https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg','name':"product","permission":"No access","email":"product@gmail.com","isInvite":false},
+                {"profilePic":'https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg','name':"engineer","permission":"No access","email":"engineer@gmail.com","isInvite":false}
             ]
             }
         ],
@@ -79,12 +79,12 @@ export default {
       if(newObj == ""){
         console.log("inside if");
          this.groupsOptions = this.resetGroupsOptions
-        
+        this.newObj = ""
        
       }else{
         console.log("outside if")
         console.log("new in watcher",newObj)
-      this.getResultedData(newObj);
+        this.getResultedData(newObj);
       }
       
      }
@@ -94,8 +94,20 @@ export default {
    this.getResultedData = debounce(this.getResultedData, 1000);
   },
   methods:{
+    inviteDisabled(){
+       if(this.groupsOptions.length == 1){
+        return true
+       }else{
+        false
+       }
+    },
     selectedOptionedClick(selectedPermission){
     console.log("selected persmision",selectedPermission);
+    console.log("group options",this.groupsOptions);
+    this.groupsOptions[0].details[0]['permission'] = selectedPermission;
+     console.log("group options",this.groupsOptions);
+    
+
     },
     getResultedData(newObj){
         this.groupsOptions = this.resetGroupsOptions
@@ -132,7 +144,9 @@ export default {
        this.groupsOptions = searchArrayMain
     },
     inviteClick(){
+        this.groupsOptions[0].details[0]['isInvite'] = true;
         this.$emit("isInviteClick",true);
+        console.log("inivte option",this.groupsOptions);
     },
     submitSearchResult(){
       console.log("click enter");

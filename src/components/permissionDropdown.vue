@@ -1,5 +1,5 @@
 <template>
-     <el-select v-model="selectedPermission" placeholder="Full access"   @change="$emit('selectedOptionedClick',selectedPermission)">
+     <el-select v-model="selectedPermission" placeholder="Full access"   @change="$emit('selectedOptionedClick',selectedPermission)" :disabled="disabled">
                 <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -11,7 +11,7 @@
 <script>
 
 export default{
-     props: ["options"],
+     props: ["options","disabled"],
      data(){
         return{
             selectedPermission:""
