@@ -34,7 +34,7 @@
        
     </section>
     <hr class="hrCss">
-    <footer>
+    <footer class="footerCss">
       <span class="descriptionText">learn about sharing</span>
     </footer>
   
@@ -69,11 +69,16 @@ export default {
 .headerCss{
     display: flex;
     justify-content: space-between;
+     padding: 10px;
 }
 .leftHeader{
      width: 70%;
 }
+.footerCss{
+  padding: 10px;
+}
 .sectionCss{
+  padding: 10px;
     /* height: 380px; */
     /* margin: 55px 0 15px 0; */
 }
@@ -97,17 +102,15 @@ export default {
     margin-top: 10px;
     width: 100%;
 }
-.listUl{
-
-}
 .hrCss{
-    height:1px;border-width:0; background-color: #cdd0d5;
+    height:1px;border-width:0; background-color: #e7e9eb;
 }
 .wrapper{
     border: 1px solid rgb(191, 189, 189);
     width: 600px;
     /* height: 500px; */
-    padding: 10px;
+   
+    border-radius: 10px;
 }
 .eachList{
     display: flex;

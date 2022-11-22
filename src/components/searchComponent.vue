@@ -2,7 +2,7 @@
   <div class="wrapper">
       <header class="headerCss">
         <div class="each">
-          <input @keyup.enter="submitSearchResult()" placeholder="Search emails,names or group"  v-model="searchText"  />
+          <input @keyup.enter="submitSearchResult()" placeholder="Search emails,names or group" class="inputCss" v-model="searchText"  />
         </div>
         <div class="each"> 
             <permissionDropdown :options="options" @selectedOptionedClick="selectedOptionedClick" :disabled="!inviteDisabled()"></permissionDropdown>
@@ -22,13 +22,15 @@
               
         </div>
       </section>
-      <footer>
+      <footer class="footerCss">
          <span class="descriptionText">learn about sharing</span>
       </footer>
   </div>
 </template>
 
 <script>
+import { SET_TODO_LIST } from "@/store/mutation-types";
+import { mapGetters ,mapMutations} from "vuex";
 import debounce from "debounce";
 import permissionDropdown from "./permissionDropdown.vue";
 export default {
@@ -50,26 +52,27 @@ export default {
           label: 'No access'
         }],
         selectedPermission: '',
-        groupsOptions:[
-            {
-            "title" :"selected Person",
-            "details":[
-                {"profilePic":'https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg','name':"wade Cooper" ,"permission":"No access","email":"wadeCooper@gmail.com","isInvite":false},
-                {"profilePic":'https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg','name':"Arlin Mccoy","permission":"No access","email":"ArlinMccoy@gmail.com","isInvite":false}
-            ]
-            },
-             {
-            "title" :"selected Group",
-            "details":[
-                {"profilePic":'https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg','name':"product","permission":"No access","email":"product@gmail.com","isInvite":false},
-                {"profilePic":'https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg','name':"engineer","permission":"No access","email":"engineer@gmail.com","isInvite":false}
-            ]
-            }
-        ],
+        groupsOptions:[],
+            // {
+            // "title" :"selected Person",
+            // "details":[
+            //     {"profilePic":'https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg','name':"wade Cooper" ,"permission":"No access","email":"wadeCooper@gmail.com","isInvite":false},
+            //     {"profilePic":'https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg','name':"Arlin Mccoy","permission":"No access","email":"ArlinMccoy@gmail.com","isInvite":false}
+            // ]
+            // },
+            //  {
+            // "title" :"selected Group",
+            // "details":[
+            //     {"profilePic":'https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg','name':"product","permission":"No access","email":"product@gmail.com","isInvite":false},
+            //     {"profilePic":'https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg','name':"engineer","permission":"No access","email":"engineer@gmail.com","isInvite":false}
+            // ]
+            // }
+        
         selectedGroupOptions:[],
         resetGroupsOptions:[]
     }
   },
+  
   components:{
     "permissionDropdown":permissionDropdown
   },
@@ -89,11 +92,19 @@ export default {
       
      }
   },
+
   created(){
+     this.groupsOptions = this.getToDoList
     this.resetGroupsOptions = this.groupsOptions
    this.getResultedData = debounce(this.getResultedData, 1000);
+   console.log("$$getPersonList",this.getToDoList);
+  
+  },
+    computed: {
+    ...mapGetters("todostore", ["getToDoList"]),
   },
   methods:{
+     ...mapMutations("todostore", [SET_TODO_LIST]),
     inviteDisabled(){
        if(this.groupsOptions.length == 1){
         return true
@@ -105,12 +116,26 @@ export default {
     console.log("selected persmision",selectedPermission);
     console.log("group options",this.groupsOptions);
     this.groupsOptions[0].details[0]['permission'] = selectedPermission;
-     console.log("group options",this.groupsOptions);
+   for(var i =0;i<this.getToDoList.length;i++){
+    debugger
+    for(var j=0;j<this.getToDoList[i].details.length;j++){
+        if(this.getToDoList[i].details[j].name == this.groupsOptions[0].details[0]['name']){
+        this.getToDoList[i].details[j].permission = selectedPermission;
+        break;
+     }
+    }
     
+   }
+     console.log("group options",this.groupsOptions,this.getToDoList);
+     this[SET_TODO_LIST](this.getToDoList);
+      console.log("after set mutation",this.getToDoList);
 
     },
     getResultedData(newObj){
+      
         this.groupsOptions = this.resetGroupsOptions
+        //  this[SET_TODO_LIST](this.groupsOptions);
+         console.log("after reset option",this.groupsOptions);
         console.log("new from methoad",newObj);
       
        var searchArrayMain = []
@@ -144,9 +169,24 @@ export default {
        this.groupsOptions = searchArrayMain
     },
     inviteClick(){
-        this.groupsOptions[0].details[0]['isInvite'] = true;
+      // console.log("getPersonList",this.getPersonList);
+        // this.groupsOptions[0].details[0]['isInvite'] = true;
         this.$emit("isInviteClick",true);
         console.log("inivte option",this.groupsOptions);
+        
+          for(var i =0;i<this.getToDoList.length;i++){
+            debugger
+            for(var j=0;j<this.getToDoList[i].details.length;j++){
+                if(this.getToDoList[i].details[j].name == this.groupsOptions[0].details[0]['name']){
+                this.getToDoList[i].details[j].isInvite = true;
+                break;
+            }
+            }
+            
+          }
+
+         this[SET_TODO_LIST](this.getToDoList);
+          console.log("after inivte option",this.getToDoList);
     },
     submitSearchResult(){
       console.log("click enter");
@@ -164,11 +204,32 @@ export default {
 }
 .sectionCss{
     margin: 20px 0 30px 0;
+    padding: 10px;
 }
 .headerCss{
     display: grid;
     grid-template-columns:auto auto auto;
-    grid-gap: 10px
+    grid-gap: 10px;
+   background:#edeef1;
+   overflow: hidden;
+   padding: 10px
+    /* border-radius: 10px; */
+}
+.footerCss{
+   overflow: hidden;
+    background:#edeef1;
+    padding: 10px;
+     /* border-radius: 10px; */
+}
+
+input:focus{
+  outline: none;
+}
+.inputCss{
+      border: none;
+    width: 97%;
+    height: 38px;
+     background:#edeef1;
 }
 .each{
     /* margin: 0 10 0 10; */
@@ -176,9 +237,12 @@ export default {
 }
 .wrapper{
     border: 1px solid rgb(191, 189, 189);
+  
     width: 600px;
     /* height: 500px; */
-    padding: 10px;
+    /* padding: 10px; */
+    border-radius: 10px;
+    /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
 }
 .titleText{
     

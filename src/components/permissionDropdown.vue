@@ -1,5 +1,6 @@
 <template>
-     <el-select v-model="selectedPermission" placeholder="Full access"   @change="$emit('selectedOptionedClick',selectedPermission)" :disabled="disabled">
+<div class="containerOfDropdown">
+     <el-select v-model="selectedPermission" placeholder="Full access" class="dropdownCss" @change="$emit('selectedOptionedClick',selectedPermission)" :disabled="disabled">
                 <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -7,6 +8,7 @@
                 :value="item.value">
                 </el-option>
      </el-select>
+     </div>
 </template>
 <script>
 
@@ -20,3 +22,10 @@ export default{
      
 }
 </script>
+<style scoped>
+.el-input >>> .el-input__inner {
+  border: none;
+     background:#d0d1d3;
+}
+
+</style>
