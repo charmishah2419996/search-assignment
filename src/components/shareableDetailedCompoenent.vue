@@ -16,18 +16,19 @@
          <template slot="append">invite</template>
        </el-input>
         <div class="wrapperList">
-           <div class="eachList" v-for="(selectedOptions,index) in optionsList" :key=index>
+           <div class="eachList" v-for="(selectedOptions,index) in optionsList" :key="index">
+            <!-- {{selectedOptions}} -->
              <div class="leftSide">
                 <div class="profilePicture">
                     <img :src="selectedOptions.profilePic" class="imgPic">
                </div>
                <div>
-                  <span class="titleText">{{selectedOptions.title}}abc</span>
-                  <span class="descriptionText"> {{selectedOptions.description}}</span>
+                  <span class="titleText">{{selectedOptions.name}}</span>
+                  <span class="descriptionText"> {{selectedOptions.email}}</span>
                </div>
              </div>
              <div class="rightSide">
-                {{selectedOptions.givenPermission}}
+                {{selectedOptions.permission}}
              </div>
            </div>
          </div>  
@@ -42,20 +43,38 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: 'shareableDetailedCompoenent',
   data(){
     return{
         optionsList:[{
-            'title':'Everyone at oslash',
-            'description' :'25 workspace member',
-            'profilePic' :'https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg',
-            'givenPermission':"No Access"
+          "profilePic":'https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg','name':"product","permission":"No access","email":"product@gmail.com","isInvite":false
         }],
         switchValue:false
     }
   },
+  computed: {
+    ...mapGetters("todostore", ["getToDoList"]),
+    
+  },
+  created(){
+    this.processOptionList();
+  // this.optionsList = this.getToDoList
+  },
   methods:{
+    processOptionList(){
+   for(var i=0;i<this.getToDoList.length;i++){
+     for(var j=0;j<this.getToDoList[i].details.length;j++){
+      if(this.getToDoList[i].details[j].isInvite){
+        console.log("inside",this.getToDoList[i].details[j]);
+       this.optionsList.push(this.getToDoList[i].details[j])
+       console.log("after",this.getToDoList);
+       }
+     }
+   }
+   console.log("$$ after options list",this.optionsList);
+    },
     inputClick(){
         this.$emit("isinputClickFromSharable",true);
     }
