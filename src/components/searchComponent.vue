@@ -3,7 +3,6 @@
       <header class="headerCss">
         <div class="each">
           <input v-if="isInput" @keyup.enter="submitSearchResult()" placeholder="Search emails,names or group" class="inputCss" v-model="searchText"  />
-          <!-- <div v-else>{{searchText}}<button class="btn"><i class="fa fa-close"></i></button></div> -->
            <el-alert
            v-else
              :title="searchText"
@@ -61,21 +60,6 @@ export default {
         selectedPermission: '',
         groupsOptions:[],
         isInput:true,
-            // {
-            // "title" :"selected Person",
-            // "details":[
-            //     {"profilePic":'https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg','name':"wade Cooper" ,"permission":"No access","email":"wadeCooper@gmail.com","isInvite":false},
-            //     {"profilePic":'https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg','name':"Arlin Mccoy","permission":"No access","email":"ArlinMccoy@gmail.com","isInvite":false}
-            // ]
-            // },
-            //  {
-            // "title" :"selected Group",
-            // "details":[
-            //     {"profilePic":'https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg','name':"product","permission":"No access","email":"product@gmail.com","isInvite":false},
-            //     {"profilePic":'https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg','name':"engineer","permission":"No access","email":"engineer@gmail.com","isInvite":false}
-            // ]
-            // }
-        
         selectedGroupOptions:[],
         resetGroupsOptions:[]
     }
@@ -86,15 +70,11 @@ export default {
   },
   watch:{
      searchText(newObj){
-      console.log("new in watcher",newObj);
+    
       if(newObj == ""){
-        console.log("inside if");
          this.groupsOptions = this.resetGroupsOptions
         this.newObj = ""
-       
       }else{
-        console.log("outside if")
-        console.log("new in watcher",newObj)
         this.getResultedData(newObj);
       }
       
@@ -105,7 +85,6 @@ export default {
      this.groupsOptions = this.getToDoList
     this.resetGroupsOptions = this.groupsOptions
    this.getResultedData = debounce(this.getResultedData, 1000);
-   console.log("$$getPersonList",this.getToDoList);
   
   },
     computed: {
@@ -126,11 +105,8 @@ export default {
         this.searchText = ""
     },
     selectedOptionedClick(selectedPermission){
-    console.log("selected persmision",selectedPermission);
-    console.log("group options",this.groupsOptions);
     this.groupsOptions[0].details[0]['permission'] = selectedPermission;
    for(var i =0;i<this.getToDoList.length;i++){
-    debugger
     for(var j=0;j<this.getToDoList[i].details.length;j++){
         if(this.getToDoList[i].details[j].name == this.groupsOptions[0].details[0]['name']){
         this.getToDoList[i].details[j].permission = selectedPermission;
@@ -139,21 +115,11 @@ export default {
     }
     
    }
-     console.log("group options",this.groupsOptions,this.getToDoList);
      this[SET_TODO_LIST](this.getToDoList);
-      console.log("after set mutation",this.getToDoList);
-
     },
     getResultedData(newObj){
-      
         this.groupsOptions = this.resetGroupsOptions
-        //  this[SET_TODO_LIST](this.groupsOptions);
-         console.log("after reset option",this.groupsOptions);
-        console.log("new from methoad",newObj);
-      
        var searchArrayMain = []
-       console.log("groupsOptions",this.groupsOptions);
-      
        for(var i=0;i<this.resetGroupsOptions.length;i++){
           var searchDetailsAr=[];
          var isFind = false
@@ -165,7 +131,6 @@ export default {
               'name':this.resetGroupsOptions[i].details[j].name
             }
              searchDetailsAr.push(obj)
-           
            }
          }
           let objMain = {
@@ -178,17 +143,11 @@ export default {
           }
           
        }
-       console.log("searchresult",searchArrayMain);
        this.groupsOptions = searchArrayMain
     },
     inviteClick(){
-      // console.log("getPersonList",this.getPersonList);
-        // this.groupsOptions[0].details[0]['isInvite'] = true;
-        this.$emit("isInviteClick",true);
-        console.log("inivte option",this.groupsOptions);
-        
+        this.$emit("isInviteClick",true);  
           for(var i =0;i<this.getToDoList.length;i++){
-            debugger
             for(var j=0;j<this.getToDoList[i].details.length;j++){
                 if(this.getToDoList[i].details[j].name == this.groupsOptions[0].details[0]['name']){
                 this.getToDoList[i].details[j].isInvite = true;
@@ -199,14 +158,10 @@ export default {
           }
 
          this[SET_TODO_LIST](this.getToDoList);
-          console.log("after inivte option",this.getToDoList);
     },
     submitSearchResult(){
-      console.log("click enter");
       this.isInput = false
       
-
-
     }
   }
 }

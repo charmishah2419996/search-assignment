@@ -20,7 +20,6 @@
        </el-input>
         <div class="wrapperList">
            <div class="eachList" v-for="(selectedOptions,index) in optionsList" :key="index">
-            <!-- {{selectedOptions}} -->
              <div class="leftSide">
                 <div class="profilePicture">
                     <img :src="selectedOptions.profilePic" class="imgPic">
@@ -63,20 +62,18 @@ export default {
   },
   created(){
     this.processOptionList();
-  // this.optionsList = this.getToDoList
   },
   methods:{
     processOptionList(){
    for(var i=0;i<this.getToDoList.length;i++){
      for(var j=0;j<this.getToDoList[i].details.length;j++){
       if(this.getToDoList[i].details[j].isInvite){
-        console.log("inside",this.getToDoList[i].details[j]);
+       
        this.optionsList.push(this.getToDoList[i].details[j])
-       console.log("after",this.getToDoList);
+      
        }
      }
    }
-   console.log("$$ after options list",this.optionsList);
     },
     inputClick(){
         this.$emit("isinputClickFromSharable",true);
@@ -116,19 +113,11 @@ img{
 }
 .sectionCss{
   padding: 10px;
-    /* height: 380px; */
-    /* margin: 55px 0 15px 0; */
+   
 }
-/* .inputCss{
- margin: 10px 0 55px 0;
-} */
-   
 .titleText{
-    
-    display: block;
-   
-
-    font-family: 'Inter';
+  display: block;
+  font-family: 'Inter';
 font-style: normal;
 font-weight: 400;
 font-size: 16px;
@@ -137,10 +126,8 @@ color: #111827;
 
 }
 .descriptionText{
-        display: block;
-    /* color: gray;
-    font-size: 15px; */
-    font-family: 'Inter';
+  display: block;
+  font-family: 'Inter';
 font-style: normal;
 font-weight: 400;
 font-size: 14px;
@@ -156,27 +143,20 @@ color: #6B7280;
 }
 .wrapper{
     border: 1px solid rgb(191, 189, 189);
-    /* width: 600px; */
-        width: 512px;
-    /* height: 262px; */
-    /* height: 500px; */
+    width: 512px;
    background: #FFFFFF;
     border-radius: 10px;
 }
 .eachList{
     display: flex;
     margin: 10px 0 10px 0;
-    
     justify-content: space-between;
-
-
 }
 .eachList .leftSide{
    width: 80%;
    display: flex;
 }
 .leftSide .profilePicture{
-
      width: 7%;
     margin-top: 10px;
 }
@@ -192,7 +172,5 @@ color: #6B7280;
 .imgPic{
   margin-right: 10px;
 }
-/* .profilePicture .imgPic{
-   width: 100%;
-} */
+
 </style>

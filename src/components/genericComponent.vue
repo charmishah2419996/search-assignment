@@ -31,7 +31,6 @@ export default {
     shareButtonClick(){
       this.isSharableDetailedVisible = true
       this.isSearchComponentVisble =false
-      console.log("@@share button click");
     },
     isinputClickFromSharable(state){
       if(state){
@@ -42,8 +41,6 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .shareBtnCss{
   margin-bottom: 20px;

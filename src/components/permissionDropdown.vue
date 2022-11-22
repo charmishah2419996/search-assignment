@@ -1,13 +1,13 @@
 <template>
 <div class="containerOfDropdown">
-     <select v-model="selectedPermission" placeholder="Full access" class="dropdownCss" @change="$emit('selectedOptionedClick',selectedPermission)" :disabled="disabled">
-                <option
+     <el-select  v-model="selectedPermission" placeholder="Full access" class="dropdownCss" @change="$emit('selectedOptionedClick',selectedPermission)" :disabled="disabled">
+               <el-option
                 v-for="item in options"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
-                </option>
-     </select>
+                </el-option>
+     </el-select>
      </div>
 </template>
 <script>
