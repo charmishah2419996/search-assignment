@@ -5,14 +5,7 @@
           <input @keyup.enter="submitSearchResult()" placeholder="Search emails,names or group"  v-model="searchText"  />
         </div>
         <div class="each"> 
-             <el-select v-model="selectedPermission" placeholder="Full access">
-                <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-                </el-option>
-             </el-select>
+            <permissionDropdown :options="options" @selectedOptionedClick="selectedOptionedClick"></permissionDropdown>
         </div>
         <div class="each">
              <el-button @click="inviteClick()">invite</el-button>
@@ -37,6 +30,7 @@
 
 <script>
 import debounce from "debounce";
+import permissionDropdown from "./permissionDropdown.vue";
 export default {
   name: 'searchComponent',
   data(){
@@ -76,6 +70,9 @@ export default {
         resetGroupsOptions:[]
     }
   },
+  components:{
+    "permissionDropdown":permissionDropdown
+  },
   watch:{
      searchText(newObj){
       console.log("new in watcher",newObj);
@@ -97,6 +94,9 @@ export default {
    this.getResultedData = debounce(this.getResultedData, 1000);
   },
   methods:{
+    selectedOptionedClick(selectedPermission){
+    console.log("selected persmision",selectedPermission);
+    },
     getResultedData(newObj){
         this.groupsOptions = this.resetGroupsOptions
         console.log("new from methoad",newObj);
