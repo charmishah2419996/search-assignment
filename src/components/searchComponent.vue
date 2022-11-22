@@ -2,22 +2,29 @@
   <div class="wrapper">
       <header class="headerCss">
         <div class="each">
-          <input @keyup.enter="submitSearchResult()" placeholder="Search emails,names or group" class="inputCss" v-model="searchText"  />
+          <input v-if="isInput" @keyup.enter="submitSearchResult()" placeholder="Search emails,names or group" class="inputCss" v-model="searchText"  />
+          <!-- <div v-else>{{searchText}}<button class="btn"><i class="fa fa-close"></i></button></div> -->
+           <el-alert
+           v-else
+             :title="searchText"
+             @close = "closeSearch"
+                  type="info"/>
         </div>
         <div class="each"> 
             <permissionDropdown :options="options" @selectedOptionedClick="selectedOptionedClick" :disabled="!inviteDisabled()"></permissionDropdown>
         </div>
-        <div class="each">
-             <el-button @click="inviteClick()" :disabled="!inviteDisabled()">invite</el-button>
+        <div class="each" style="justify-content: right;">
+             <el-button @click="inviteClick()" :disabled="!inviteDisabled()" class="inviteBtn">invite</el-button>
         </div>
 
       </header>
       <section class="sectionCss">
         <div class="eachGroup" v-for="(groupObj,index) in groupsOptions" :key="index">
-              <span class="titleText">{{groupObj.title}}</span>
+              <div class="titleText">{{groupObj.title}}</div>
               <div class="each" v-for="(detailObj,index) in groupObj.details" :key="index">
-                 <img :src="detailObj.profilePic" width="30px" />
-                 <span>{{detailObj.name}}</span>
+                 <div><img :src="detailObj.profilePic"  /></div>
+                 
+                 <div class="name">{{detailObj.name}}</div>
               </div>
               
         </div>
@@ -53,6 +60,7 @@ export default {
         }],
         selectedPermission: '',
         groupsOptions:[],
+        isInput:true,
             // {
             // "title" :"selected Person",
             // "details":[
@@ -111,6 +119,11 @@ export default {
        }else{
         false
        }
+    },
+    closeSearch(){
+        this.groupsOptions = this.getToDoList
+        this.isInput = true
+        this.searchText = ""
     },
     selectedOptionedClick(selectedPermission){
     console.log("selected persmision",selectedPermission);
@@ -190,6 +203,8 @@ export default {
     },
     submitSearchResult(){
       console.log("click enter");
+      this.isInput = false
+      
 
 
     }
@@ -199,26 +214,46 @@ export default {
 
 
 <style scoped>
+.inviteBtn{
+ color: #374151;
+ font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 16px;
+}
+img{
+      width: 24px;
+height: 24px;
+border-radius: 12px;
+}
+.name{
+  margin-left: 10px;
+}
 .eachGroup{
     margin: 15px 0 15px 0 ;
+    /* display: flex; */
 }
 .sectionCss{
-    margin: 20px 0 30px 0;
-    padding: 10px;
+    /* margin: 20px 0 30px 0;
+    padding: 10px; */
+        height: 272px;
 }
 .headerCss{
     display: grid;
     grid-template-columns:auto auto auto;
     grid-gap: 10px;
-   background:#edeef1;
+   background:#F3F4F6;
    overflow: hidden;
-   padding: 10px
+   padding: 10px;
+   height:58px;
     /* border-radius: 10px; */
 }
 .footerCss{
    overflow: hidden;
-    background:#edeef1;
+    background:#F3F4F6;
     padding: 10px;
+    height: 36px;
      /* border-radius: 10px; */
 }
 
@@ -229,16 +264,19 @@ input:focus{
       border: none;
     width: 97%;
     height: 38px;
-     background:#edeef1;
+     background:#F3F4F6;
 }
 .each{
     /* margin: 0 10 0 10; */
  margin: 10px 0 10px 0;
+ display: flex;
+ align-items: center;
+
 }
 .wrapper{
     border: 1px solid rgb(191, 189, 189);
   
-    width: 600px;
+    width: 512px;
     /* height: 500px; */
     /* padding: 10px; */
     border-radius: 10px;
@@ -247,8 +285,14 @@ input:focus{
 .titleText{
     
     display: block;
-    font-size: 20px;
-    font-weight: 400;
+    /* font-size: 20px;
+    font-weight: 400; */
+    font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 16px;
+line-height: 24px;
+color: #374151;
 
 }
 .descriptionText{

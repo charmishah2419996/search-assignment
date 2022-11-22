@@ -2,10 +2,13 @@
   <div class="wrapper">
     <header class="headerCss">
         <div class="leftHeader">
-            <span class="titleText">share to web</span>
+           <div style="margin-top: 10px;"> <img src="https://cdn.pixabay.com/photo/2016/08/24/14/29/earth-1617121__340.jpg" class="imgPic"></div>
+           <div>
+            <span class="titleText" >share to web</span>
             <span class="descriptionText">Publish and share link with anyone</span>
+            </div>
         </div>
-       <div>
+       <div style="margin-top: 10px;">
           <el-switch v-model="switchValue"></el-switch>
        </div>
       
@@ -13,7 +16,7 @@
     <hr class="hrCss">
     <section class="sectionCss">
        <el-input placeholder="People,emails,group" class="inputCss" @focus="inputClick()">
-         <template slot="append">invite</template>
+         <template slot="append">Invite</template>
        </el-input>
         <div class="wrapperList">
            <div class="eachList" v-for="(selectedOptions,index) in optionsList" :key="index">
@@ -27,7 +30,7 @@
                   <span class="descriptionText"> {{selectedOptions.email}}</span>
                </div>
              </div>
-             <div class="rightSide">
+             <div class="rightSide permission">
                 {{selectedOptions.permission}}
              </div>
            </div>
@@ -49,7 +52,7 @@ export default {
   data(){
     return{
         optionsList:[{
-          "profilePic":'https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg','name':"product","permission":"No access","email":"product@gmail.com","isInvite":false
+          "profilePic":'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaufFlgpRkoTKitXpoaDwqo7Ld5qEa5QI5zPFRUlqnXQ&s','name':"Everyone at oslash","permission":"No access","email":"25 workspace member","isInvite":false
         }],
         switchValue:false
     }
@@ -85,12 +88,27 @@ export default {
 
 
 <style scoped>
+
+.fontCss{
+      font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 32px;
+    color: #000000;
+}
+img{
+      width: 24px;
+    height: 24px;
+    border-radius: 12px;
+}
 .headerCss{
     display: flex;
     justify-content: space-between;
      padding: 10px;
 }
 .leftHeader{
+  display: flex;
      width: 70%;
 }
 .footerCss{
@@ -101,21 +119,33 @@ export default {
     /* height: 380px; */
     /* margin: 55px 0 15px 0; */
 }
-.inputCss{
+/* .inputCss{
  margin: 10px 0 55px 0;
-}
+} */
    
 .titleText{
     
     display: block;
-    font-size: 20px;
-    font-weight: 400;
+   
+
+    font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 24px;
+color: #111827;
 
 }
 .descriptionText{
         display: block;
-    color: gray;
-    font-size: 15px;
+    /* color: gray;
+    font-size: 15px; */
+    font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 20px;
+color: #6B7280;
 }
 .wrapperList{
     margin-top: 10px;
@@ -126,14 +156,19 @@ export default {
 }
 .wrapper{
     border: 1px solid rgb(191, 189, 189);
-    width: 600px;
+    /* width: 600px; */
+        width: 512px;
+    /* height: 262px; */
     /* height: 500px; */
-   
+   background: #FFFFFF;
     border-radius: 10px;
 }
 .eachList{
     display: flex;
     margin: 10px 0 10px 0;
+    
+    justify-content: space-between;
+
 
 }
 .eachList .leftSide{
@@ -142,10 +177,22 @@ export default {
 }
 .leftSide .profilePicture{
 
-     width: 15%;
-    margin-right: 10px;
+     width: 7%;
+    margin-top: 10px;
 }
-.profilePicture .imgPic{
+.permission{
+  font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #6B7280;
+    margin-top: 10px;
+}
+.imgPic{
+  margin-right: 10px;
+}
+/* .profilePicture .imgPic{
    width: 100%;
-}
+} */
 </style>
