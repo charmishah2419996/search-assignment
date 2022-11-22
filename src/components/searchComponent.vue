@@ -4,10 +4,10 @@
         <div class="each">
           <input v-if="isInput" @keyup.enter="submitSearchResult()" placeholder="Search emails,names or group" class="inputCss" v-model="searchText"  />
            <el-alert
-           v-else
-             :title="searchText"
-             @close = "closeSearch"
-                  type="info"/>
+              v-else
+              :title="searchText"
+              @close = "closeSearch"
+              type="info"/>
         </div>
         <div class="each"> 
             <permissionDropdown :options="options" @selectedOptionedClick="selectedOptionedClick" :disabled="!inviteDisabled()"></permissionDropdown>
@@ -64,13 +64,11 @@ export default {
         resetGroupsOptions:[]
     }
   },
-  
   components:{
     "permissionDropdown":permissionDropdown
   },
   watch:{
      searchText(newObj){
-    
       if(newObj == ""){
          this.groupsOptions = this.resetGroupsOptions
         this.newObj = ""
@@ -83,21 +81,20 @@ export default {
 
   created(){
      this.groupsOptions = this.getToDoList
-    this.resetGroupsOptions = this.groupsOptions
-   this.getResultedData = debounce(this.getResultedData, 1000);
-  
+     this.resetGroupsOptions = this.groupsOptions
+     this.getResultedData = debounce(this.getResultedData, 1000);
   },
     computed: {
     ...mapGetters("todostore", ["getToDoList"]),
   },
   methods:{
-     ...mapMutations("todostore", [SET_TODO_LIST]),
+    ...mapMutations("todostore", [SET_TODO_LIST]),
     inviteDisabled(){
        if(this.groupsOptions.length == 1){
-        return true
-       }else{
-        false
-       }
+           return true
+        }else{
+            return false
+        }
     },
     closeSearch(){
         this.groupsOptions = this.getToDoList
@@ -106,33 +103,33 @@ export default {
     },
     selectedOptionedClick(selectedPermission){
     this.groupsOptions[0].details[0]['permission'] = selectedPermission;
-   for(var i =0;i<this.getToDoList.length;i++){
-    for(var j=0;j<this.getToDoList[i].details.length;j++){
-        if(this.getToDoList[i].details[j].name == this.groupsOptions[0].details[0]['name']){
-        this.getToDoList[i].details[j].permission = selectedPermission;
-        break;
-     }
-    }
+     for(var i =0;i<this.getToDoList.length;i++){
+        for(var j=0;j<this.getToDoList[i].details.length;j++){
+          if(this.getToDoList[i].details[j].name == this.groupsOptions[0].details[0]['name']){
+          this.getToDoList[i].details[j].permission = selectedPermission;
+          break;
+        }
+      }
     
    }
      this[SET_TODO_LIST](this.getToDoList);
     },
     getResultedData(newObj){
         this.groupsOptions = this.resetGroupsOptions
-       var searchArrayMain = []
-       for(var i=0;i<this.resetGroupsOptions.length;i++){
+        var searchArrayMain = []
+        for(var i=0;i<this.resetGroupsOptions.length;i++){
           var searchDetailsAr=[];
-         var isFind = false
-        for(var j=0;j<this.resetGroupsOptions[i].details.length;j++){
-           if(this.resetGroupsOptions[i].details[j].name == newObj){
-            isFind = true
-            let obj ={
-              "profilePic":this.resetGroupsOptions[i].details[j].profilePic,
-              'name':this.resetGroupsOptions[i].details[j].name
+          var isFind = false
+          for(var j=0;j<this.resetGroupsOptions[i].details.length;j++){
+            if(this.resetGroupsOptions[i].details[j].name == newObj){
+              isFind = true
+              let obj ={
+                "profilePic":this.resetGroupsOptions[i].details[j].profilePic,
+                'name':this.resetGroupsOptions[i].details[j].name
+              }
+              searchDetailsAr.push(obj)
             }
-             searchDetailsAr.push(obj)
-           }
-         }
+          }
           let objMain = {
               "title" : this.resetGroupsOptions[i].title,
               "details" : searchDetailsAr

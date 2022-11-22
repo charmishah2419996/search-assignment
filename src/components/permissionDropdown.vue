@@ -16,7 +16,7 @@ export default{
      props: ["options","disabled"],
      data(){
         return{
-            selectedPermission:"Full access"
+            selectedPermission:"No access"
         }
      },
      

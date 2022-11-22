@@ -65,15 +65,15 @@ export default {
   },
   methods:{
     processOptionList(){
-   for(var i=0;i<this.getToDoList.length;i++){
-     for(var j=0;j<this.getToDoList[i].details.length;j++){
-      if(this.getToDoList[i].details[j].isInvite){
-       
-       this.optionsList.push(this.getToDoList[i].details[j])
-      
-       }
-     }
-   }
+      for(var i=0;i<this.getToDoList.length;i++){
+        for(var j=0;j<this.getToDoList[i].details.length;j++){
+          if(this.getToDoList[i].details[j].isInvite){
+          
+          this.optionsList.push(this.getToDoList[i].details[j])
+          
+          }
+        }
+      }
     },
     inputClick(){
         this.$emit("isinputClickFromSharable",true);
