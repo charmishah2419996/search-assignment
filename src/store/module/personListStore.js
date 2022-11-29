@@ -1,7 +1,7 @@
-import { SET_TODO_LIST } from "@/store/mutation-types";
+import { SET_PERSON_LIST } from "@/store/mutation-types";
 
 const state = {
-  todoList: [
+  personList: [
     {
       "title" :"Selecte a Person",
       "details":[
@@ -20,12 +20,12 @@ const state = {
 };
 
 const getters = {
-  getToDoList: (state) => state.todoList,
+  getPersonList: (state) => state.personList,
 };
 
 const mutations = {
-  [SET_TODO_LIST](state, payload) {
-    state.todoList = payload;
+  [SET_PERSON_LIST](state, payload) {
+    state.personList = payload;
   },
 };
 

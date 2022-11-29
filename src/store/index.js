@@ -1,12 +1,12 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-import todostore from "./module/todostore";
+import personListStore from "./module/personListStore";
 
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
   modules: {
-    todostore,
+    personListStore,
   },
 });

@@ -57,7 +57,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("todostore", ["getToDoList"]),
+    ...mapGetters("personListStore", ["getPersonList"]),
     
   },
   created(){
@@ -65,11 +65,11 @@ export default {
   },
   methods:{
     processOptionList(){
-      for(var i=0;i<this.getToDoList.length;i++){
-        for(var j=0;j<this.getToDoList[i].details.length;j++){
-          if(this.getToDoList[i].details[j].isInvite){
+      for(var i=0;i<this.getPersonList.length;i++){
+        for(var j=0;j<this.getPersonList[i].details.length;j++){
+          if(this.getPersonList[i].details[j].isInvite){
           
-          this.optionsList.push(this.getToDoList[i].details[j])
+          this.optionsList.push(this.getPersonList[i].details[j])
           
           }
         }

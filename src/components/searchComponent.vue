@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { SET_TODO_LIST } from "@/store/mutation-types";
+import { SET_PERSON_LIST } from "@/store/mutation-types";
 import { mapGetters ,mapMutations} from "vuex";
 import debounce from "debounce";
 import permissionDropdown from "./permissionDropdown.vue";
@@ -80,15 +80,15 @@ export default {
   },
 
   created(){
-     this.groupsOptions = this.getToDoList
+     this.groupsOptions = this.getPersonList
      this.resetGroupsOptions = this.groupsOptions
      this.getResultedData = debounce(this.getResultedData, 1000);
   },
     computed: {
-    ...mapGetters("todostore", ["getToDoList"]),
+    ...mapGetters("personListStore", ["getPersonList"]),
   },
   methods:{
-    ...mapMutations("todostore", [SET_TODO_LIST]),
+    ...mapMutations("personListStore", [SET_PERSON_LIST]),
     inviteDisabled(){
        if(this.groupsOptions.length == 1){
            return true
@@ -97,22 +97,22 @@ export default {
         }
     },
     closeSearch(){
-        this.groupsOptions = this.getToDoList
+        this.groupsOptions = this.getPersonList
         this.isInput = true
         this.searchText = ""
     },
     selectedOptionedClick(selectedPermission){
     this.groupsOptions[0].details[0]['permission'] = selectedPermission;
-     for(var i =0;i<this.getToDoList.length;i++){
-        for(var j=0;j<this.getToDoList[i].details.length;j++){
-          if(this.getToDoList[i].details[j].name == this.groupsOptions[0].details[0]['name']){
-          this.getToDoList[i].details[j].permission = selectedPermission;
+     for(var i =0;i<this.getPersonList.length;i++){
+        for(var j=0;j<this.getPersonList[i].details.length;j++){
+          if(this.getPersonList[i].details[j].name == this.groupsOptions[0].details[0]['name']){
+          this.getPersonList[i].details[j].permission = selectedPermission;
           break;
         }
       }
     
    }
-     this[SET_TODO_LIST](this.getToDoList);
+     this[SET_PERSON_LIST](this.getPersonList);
     },
     getResultedData(newObj){
         this.groupsOptions = this.resetGroupsOptions
@@ -121,7 +121,7 @@ export default {
           var searchDetailsAr=[];
           var isFind = false
           for(var j=0;j<this.resetGroupsOptions[i].details.length;j++){
-            if(this.resetGroupsOptions[i].details[j].name == newObj){
+            if(this.resetGroupsOptions[i].details[j].name.includes(newObj)){
               isFind = true
               let obj ={
                 "profilePic":this.resetGroupsOptions[i].details[j].profilePic,
@@ -144,17 +144,17 @@ export default {
     },
     inviteClick(){
         this.$emit("isInviteClick",true);  
-          for(var i =0;i<this.getToDoList.length;i++){
-            for(var j=0;j<this.getToDoList[i].details.length;j++){
-                if(this.getToDoList[i].details[j].name == this.groupsOptions[0].details[0]['name']){
-                this.getToDoList[i].details[j].isInvite = true;
+          for(var i =0;i<this.getPersonList.length;i++){
+            for(var j=0;j<this.getPersonList[i].details.length;j++){
+                if(this.getPersonList[i].details[j].name == this.groupsOptions[0].details[0]['name']){
+                this.getPersonList[i].details[j].isInvite = true;
                 break;
             }
             }
             
           }
 
-         this[SET_TODO_LIST](this.getToDoList);
+         this[SET_PERSON_LIST](this.getPersonList);
     },
     submitSearchResult(){
       this.isInput = false

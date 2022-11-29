@@ -1,1 +1,1 @@
-export const SET_TODO_LIST  = `setTodoList`;
+export const SET_PERSON_LIST  = `setPersonList`;
